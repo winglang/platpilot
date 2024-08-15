@@ -1,10 +1,24 @@
 {
   "name": "platpilot",
+  "bin": {
+    "hook": "bin/hook"
+  },
   "scripts": {
     "build": "npx projen build",
     "clobber": "npx projen clobber",
     "compile": "npx projen compile",
+    "create-namespace": "npx projen create-namespace",
     "default": "npx projen default",
+    "deploy": "npx projen deploy",
+    "deploy-config": "npx projen deploy-config",
+    "deploy-configmap-slack-config": "npx projen deploy-configmap-slack-config",
+    "deploy-helm": "npx projen deploy-helm",
+    "deploy-secret-aws-credentials": "npx projen deploy-secret-aws-credentials",
+    "deploy-secret-github-token": "npx projen deploy-secret-github-token",
+    "deploy-secret-openai-token": "npx projen deploy-secret-openai-token",
+    "deploy-secret-slack-token": "npx projen deploy-secret-slack-token",
+    "docker-build": "npx projen docker-build",
+    "docker-push": "npx projen docker-push",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
     "package": "npx projen package",
@@ -22,6 +36,8 @@
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
+    "cdk8s": "^2.68.94",
+    "cdk8s-plus-30": "^2.1.0",
     "constructs": "^10.0.0",
     "eslint": "^8",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -32,6 +48,10 @@
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "openai": "^4.55.7",
+    "slackify-markdown": "^4.4.0"
   },
   "license": "Apache-2.0",
   "publishConfig": {
