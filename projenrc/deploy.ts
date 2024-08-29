@@ -1,7 +1,7 @@
+import { cpSync } from 'fs';
 import * as cdk8s from 'cdk8s';
 import * as k8s from 'cdk8s-plus-30';
 import { Construct } from 'constructs';
-import { cpSync } from 'fs';
 
 export interface Integrations {
   slack: {
@@ -42,7 +42,7 @@ class Operator extends Construct {
     const serviceAccount = new k8s.ServiceAccount(this, 'ServiceAccount', {
       metadata: {
         namespace: props.namespace,
-        name: `serviceaccount`,
+        name: 'serviceaccount',
       },
     });
 
@@ -120,5 +120,5 @@ export function synth(props: OperatorProps) {
   new Operator(chart, 'Operator', props);
   app.synth();
 
-  cpSync("./Chart.yaml", "dist/Chart.yaml", {force: true});
+  cpSync('./Chart.yaml', 'dist/Chart.yaml', { force: true });
 }

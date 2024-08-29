@@ -8,7 +8,7 @@ const project = new typescript.TypeScriptAppProject({
   name: 'platpilot',
   projenrcTs: true,
   packageManager: NodePackageManager.NPM,
-  deps: ['openai', 'slackify-markdown'],
+  deps: ['openai', 'slackify-markdown', '@kubernetes/client-node'],
   devDeps: ['cdk8s-plus-30', 'cdk8s', 'constructs'],
 });
 

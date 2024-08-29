@@ -71,6 +71,10 @@
       "type": "build"
     },
     {
+      "name": "@kubernetes/client-node",
+      "type": "runtime"
+    },
+    {
       "name": "openai",
       "type": "runtime"
     },

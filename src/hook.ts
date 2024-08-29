@@ -3,6 +3,7 @@ import { OpenAI } from 'openai';
 import { config } from './config';
 import { prompt } from './prompts';
 import { getOrCreateSlackThread } from './slack';
+import { reasonApplication } from './argo';
 
 export type BindingContext = {
   watchEvent: 'Deleted' | 'Modified' | 'Added';
@@ -35,6 +36,11 @@ if (!channel) {
 const apiKey = process.env.OPENAI_API_KEY;
 if (!apiKey) {
   throw new Error('OPENAI_API_KEY is not set');
+}
+
+const ghToken = process.env.GITHUB_TOKEN;
+if (!ghToken) {
+  throw new Error('GITHUB_TOKEN is not set');
 }
 
 const client = new OpenAI({ apiKey });
@@ -76,18 +82,21 @@ async function main() {
     }]);
 
     // await thread.update(`${name}: ${emoji} ${event.watchEvent}`);
-
-    const response = await client.chat.completions.create({
-      model: 'gpt-4o',
-      max_tokens: 2048,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: prompt },
-        { role: 'user', content: JSON.stringify({ event }) },
-      ],
-    });
-
-    const content = response.choices[0].message.content;
+    let content: string | null = null;
+    if (event.object.apiVersion === 'argoproj.io/v1alpha1' && event.object.kind === 'Application') {
+      content = await reasonApplication(client, ghToken!, event.object);
+    } else {
+      const response = await client.chat.completions.create({
+        model: 'gpt-4o',
+        max_tokens: 2048,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: prompt },
+          { role: 'user', content: JSON.stringify({ event }) },
+        ],
+      });
+      content = response.choices[0].message.content;
+    }
     if (content) {
       try {
         const body = JSON.parse(content);

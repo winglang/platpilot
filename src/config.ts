@@ -7,5 +7,10 @@ export const config = {
       executeHookOnSynchronization: false,
       executeHookOnEvent: ['Added', 'Modified', 'Deleted'],
     },
+    {
+      apiVersion: 'argoproj.io/v1alpha1',
+      kind: 'Application',
+      executeHookOnEvent: ['Added', 'Modified', 'Deleted'],
+    },
   ],
 };

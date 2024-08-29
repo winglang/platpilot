@@ -15,11 +15,11 @@ fi
 #   kubectl create secret generic $aws_secret_name -n $namespace --from-literal=AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --from-literal=AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 # fi
 
-# if [ -n "${GITHUB_TOKEN:-}" ]; then
-#   github_secret_name="github-token"
-#   kubectl delete secret $github_secret_name -n $namespace 2>/dev/null || true
-#   kubectl create secret generic $github_secret_name -n $namespace --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN
-# fi
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  github_secret_name="github-token"
+  kubectl delete secret $github_secret_name -n $namespace 2>/dev/null || true
+  kubectl create secret generic $github_secret_name -n $namespace --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN
+fi
 
 # # tf backend env var looks like this: "AWS_DEFAULT_REGION=us-east-1\nTF_BACKEND_BUCKET=eladcon-tfstate\n..."
 # if [ -n "${TF_BACKEND_CONFIG:-}" ]; then
